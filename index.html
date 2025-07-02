@@ -1,197 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard de Pobreza y Carencias Sociales</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        // Load the Google Charts library
-        google.charts.load('current', {'packages':['corechart', 'table', 'gauge', 'line', 'geochart']});
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Omduara - Coming Soon</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #4b0082;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
 
-        // Callback that will be called when the Google Charts library is loaded
-        google.charts.setOnLoadCallback(drawDashboard);
+    h1 {
+      font-size: 3em;
+      margin: 0.2em 0;
+    }
 
-        function drawDashboard() {
-            var dataPobrezaPorcentaje = google.visualization.arrayToDataTable([
-                ['Año', 'Pobreza', 'Pobreza Moderada', 'Pobreza Extrema'],
-                ['2008', 44.4, 33.3, 11],
-                ['2010', 46.1, 34.8, 11.3],
-                ['2012', 45.5, 35.7, 9.8],
-                ['2014', 46.2, 36.6, 9.5],
-                ['2016', 43.6, 35.9, 7.6],
-                ['2018', 41.9, 34.5, 7.4]
-            ]);
+    .about {
+      margin-top: 2em;
+      font-size: 1.2em;
+      color: #e0caff;
+    }
 
-            var optionsPobrezaPorcentaje = {
-                title: 'Evolución de la Población en Situación de Pobreza',
-                isStacked: false, 
-                legend: { position: 'bottom' },
-                vAxis: { title: 'Porcentaje (%)' },
-                hAxis: { title: 'Año' }
-            };
-
-            var chartPobrezaPorcentaje = new google.visualization.AreaChart(document.getElementById('chart_pobreza_porcentaje'));
-            chartPobrezaPorcentaje.draw(dataPobrezaPorcentaje, optionsPobrezaPorcentaje);
-
-            var dataCarenciasPromedio = google.visualization.arrayToDataTable([
-                ['Año', 'Pobreza', 'Pobreza Moderada', 'Pobreza Extrema'],
-                ['2008', 2.8, 2.4, 3.9],
-                ['2010', 2.6, 2.2, 3.8],
-                ['2012', 2.4, 2.0, 3.7],
-                ['2014', 2.3, 1.9, 3.6],
-                ['2016', 2.2, 1.9, 3.5],
-                ['2018', 2.2, 1.9, 3.6]
-            ]);
-
-            var optionsCarenciasPromedio = {
-                title: 'Evolución de las Carencias Promedio',
-                curveType: 'function',
-                legend: { position: 'bottom' },
-                vAxis: { title: 'Carencias Promedio' },
-                hAxis: { title: 'Año' }
-            };
-
-            var chartCarenciasPromedio = new google.visualization.LineChart(document.getElementById('chart_carencias_promedio'));
-            chartCarenciasPromedio.draw(dataCarenciasPromedio, optionsCarenciasPromedio);
-
-            var dataCarenciaSocial = google.visualization.arrayToDataTable([
-                ['Año', 'Población con al menos una carencia social', 'Población con al menos tres carencias sociales'],
-                ['2008', 76.6, 31.7],
-                ['2010', 74.2, 28.2],
-                ['2012', 74.1, 23.9],
-                ['2014', 72.4, 22.1],
-                ['2016', 70.4, 18.7],
-                ['2018', 71.2, 18.8]
-            ]);
-
-            var optionsCarenciaSocial = {
-                title: 'Evolución de la Privación Social po Porcentaje',
-                curveType: 'function',
-                legend: { position: 'bottom' },
-                vAxis: { title: 'Porcentaje (%)' },
-                hAxis: { title: 'Año' }
-            };
-
-            var chartCarenciaSocial = new google.visualization.LineChart(document.getElementById('chart_carencia_social'));
-            chartCarenciaSocial.draw(dataCarenciaSocial, optionsCarenciaSocial);
-
-            var dataCarencias2018 = google.visualization.arrayToDataTable([
-                ['Carencia', 'Porcentaje'],
-                ['Rezago educativo', 16.9],
-                ['Acceso servicios de salud', 16.2],
-                ['Acceso seguridad social', 57.3],
-                ['Calidad y espacios vivienda', 11.1],
-                ['Acceso servicios básicos vivienda', 19.8],
-                ['Acceso alimentación', 20.4]
-            ]);
-
-            var optionsCarencias2018 = {
-                title: 'Principales Carencias Sociales en 2018',
-                pieHole: 0.4,
-                legend: { position: 'right' }
-            };
-
-            var chartCarencias2018 = new google.visualization.PieChart(document.getElementById('chart_carencias_2018'));
-            chartCarencias2018.draw(dataCarencias2018, optionsCarencias2018);
-
-            var dataIngresoPobreza = google.visualization.arrayToDataTable([
-                ['Año', 'Pobreza Extrema por ingresos', 'Pobreza por ingresos'],
-                ['2008', 16.8, 49],
-                ['2010', 19.4, 52],
-                ['2012', 20.0, 51.6],
-                ['2014', 20.6, 53.2],
-                ['2016', 17.5, 50.6],
-                ['2018', 16.8, 48.8]
-            ]);
-
-            var optionsIngresoPobreza = {
-                title: 'Evolución de la Población con Ingreso Inferior a la Línea de Pobreza por Porcentaje',
-                curveType: 'function',
-                legend: { position: 'bottom' },
-                vAxis: { title: 'Porcentaje (%)' },
-                hAxis: { title: 'Año' }
-            };
-
-            var chartIngresoPobreza = new google.visualization.LineChart(document.getElementById('chart_ingreso_pobreza'));
-            chartIngresoPobreza.draw(dataIngresoPobreza, optionsIngresoPobreza);
-
-            var dataPobrezaExtremaEstados = google.visualization.arrayToDataTable([
-                ['Entidad Federativa', '2018 (Miles de personas)'],
-                ['Chiapas', 1623.3],
-                ['Veracruz', 1457.9],
-                ['Guerrero', 971.4],
-                ['Oaxaca', 951.8],
-                ['México', 865.7],
-                ['Puebla', 551.9],
-                ['Guanajuato', 253.3],
-                ['Jalisco', 244.5],
-                ['Michoacán', 284.4],
-                ['San Luis Potosí', 207.6]
-            ]);
-
-            var optionsPobrezaExtremaEstados = {
-                width: '100%',
-                height: 'auto',
-                showRowNumber: true
-            };
-
-            var tablePobrezaExtremaEstados = new google.visualization.Table(document.getElementById('table_pobreza_extrema_estados'));
-            tablePobrezaExtremaEstados.draw(dataPobrezaExtremaEstados, optionsPobrezaExtremaEstados);
-
-
-            var dataPorcentajePobrezaExtremaEstados = google.visualization.arrayToDataTable([
-                ['Entidad Federativa', '2018 (%)'],
-                ['Chiapas', 29.7],
-                ['Guerrero', 26.8],
-                ['Oaxaca', 23.3],
-                ['Veracruz', 17.7],
-                ['Tabasco', 12.3],
-                ['Campeche', 9.8],
-                ['Puebla', 8.6],
-                ['Morelos', 7.4],
-                ['San Luis Potosí', 7.3],
-                ['Yucatán', 6.7]
-            ]);
-
-            var optionsPorcentajePobrezaExtremaEstados = {
-                title: 'Porcentaje de Población en Pobreza Extrema por Entidad Federativa (2018)',
-                chartArea: { width: '50%' },
-                hAxis: { title: 'Porcentaje (%)', minValue: 0 },
-                vAxis: { title: 'Entidad Federativa' },
-                legend: { position: 'none' }
-            };
-
-            var chartPorcentajePobrezaExtremaEstados = new google.visualization.BarChart(document.getElementById('chart_porcentaje_pobreza_extrema_estados'));
-            chartPorcentajePobrezaExtremaEstados.draw(dataPorcentajePobrezaExtremaEstados, optionsPorcentajePobrezaExtremaEstados);
-
-        }
-    </script>
+    .logo {
+      font-size: 2em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 1em;
+    }
+  </style>
 </head>
 <body>
-    <h1>Pobreza y Carencias Sociales en México (2008-2018)</h1>
-
-    <div class="dashboard-layout">
-        <div class="chart-container">
-            <div id="chart_pobreza_porcentaje" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <div id="chart_carencias_promedio" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <div id="chart_carencia_social" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <div id="chart_carencias_2018" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <div id="chart_ingreso_pobreza" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <h3 style="text-align: center;">Número de Personas en Pobreza Extrema por Entidad Federativa (2018)</h3>
-            <div id="table_pobreza_extrema_estados" style="height: 400px;"></div>
-        </div>
-        <div class="chart-container">
-            <div id="chart_porcentaje_pobreza_extrema_estados" style="height: 400px;"></div>
-        </div>
-    </div>
+  <div class="logo">Omduara</div>
+  <h1>Coming Soon</h1>
+  <p class="about">by Astrid Garcia</p>
 </body>
 </html>
