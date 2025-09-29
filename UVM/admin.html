@@ -5,24 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administración</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: left;
+    }
+    .stats-bar {
+      background: #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+      height: 20px;
+      margin: 5px 0;
+    }
+    .stats-fill {
+      background: teal;
+      height: 100%;
+      text-align: right;
+      color: #fff;
+      font-size: 12px;
+      padding-right: 5px;
+    }
+  </style>
 </head>
 <body class="administracion">
   <header>
     <h1>Panel de Administración</h1>
   </header>
   <main class="grid-3">
+    <!-- Usuarios -->
     <section class="card">
       <h2>Usuarios</h2>
       <p>Gestión de alumnos y profesores.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>U01</td>
+            <td>Ana López</td>
+            <td>Alumno</td>
+          </tr>
+          <tr>
+            <td>U02</td>
+            <td>Carlos Pérez</td>
+            <td>Profesor</td>
+          </tr>
+          <tr>
+            <td>U03</td>
+            <td>María Torres</td>
+            <td>Alumno</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section class="card">
       <h2>Estadísticas</h2>
       <p>Resumen de inscripciones y desempeño.</p>
+      <div>
+        <p>Inscripciones completadas</p>
+        <div class="stats-bar"><div class="stats-fill" style="width: 80%;">80%</div></div>
+        <p>Constancias solicitadas</p>
+        <div class="stats-bar"><div class="stats-fill" style="width: 40%;">40%</div></div>
+        <p>Materias activas</p>
+        <div class="stats-bar"><div class="stats-fill" style="width: 60%;">60%</div></div>
+      </div>
     </section>
     <section class="card">
-      <h2>Configuración</h2>
-      <button>Agregar Usuario</button>
-      <button>Configurar Materias</button>
+      <h2>Materias</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Materia</th>
+            <th>Profesor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>M01</td>
+            <td>Programación I</td>
+            <td>Carlos Pérez</td>
+          </tr>
+          <tr>
+            <td>M02</td>
+            <td>Redes</td>
+            <td>Carlos Pérez</td>
+          </tr>
+          <tr>
+            <td>M03</td>
+            <td>Bases de Datos</td>
+            <td>Ana López</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </main>
 </body>
