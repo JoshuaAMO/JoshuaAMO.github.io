@@ -156,44 +156,55 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-window.addEventListener('load', async () => {
-  const container = document.getElementById('terminos-viewer');
+window.addEventListener("load", async function () {
+
+  const container = document.getElementById("terminos-viewer");
+  const pdfURL = "./OMDUARA_Terminos_y_Condiciones.pdf"; // relative-safe path
 
   try {
-    const pdf = await pdfjsLib.getDocument('OMDUARA_Terminos_y_Condiciones.pdf').promise;
+    console.log("Loading PDF from:", pdfURL);
 
-    container.innerHTML = '';
+    const loadingTask = pdfjsLib.getDocument({
+      url: pdfURL,
+      withCredentials: false
+    });
 
-    const scale = window.devicePixelRatio >= 2 ? 2.5 : 2;
+    const pdf = await loadingTask.promise;
 
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
+    container.innerHTML = "";
+
+    const scale = 1.8;
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
       const viewport = page.getViewport({ scale });
 
-      const canvas = document.createElement('canvas');
-      canvas.className = 'pdf-page-canvas';
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.style.width = '100%';
-      canvas.style.maxWidth = '780px';
-      canvas.style.height = 'auto';
+      canvas.className = "pdf-page-canvas";
 
       container.appendChild(canvas);
 
       await page.render({
-        canvasContext: canvas.getContext('2d'),
-        viewport
+        canvasContext: context,
+        viewport: viewport
       }).promise;
     }
 
-  } catch (err) {
+  } catch (error) {
+    console.error("PDF failed to load:", error);
+
     container.innerHTML = `
       <div class="pdf-error">
-        <p>No se encontró el archivo</p>
-        <p class="fname">OMDUARA_Terminos_y_Condiciones.pdf</p>
-      </div>`;
+        <p>No se pudo cargar el archivo.</p>
+        <p class="fname">${pdfURL}</p>
+      </div>
+    `;
   }
 });
 </script>
