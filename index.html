@@ -1,45 +1,342 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Omduara - Coming Soon</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #4b0082;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Omduara</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="omduara.css">
+<style>
+  /* ── PDF.js inline renderer ── */
+  .pdf-viewer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 3rem;
+  }
 
-    h1 {
-      font-size: 3em;
-      margin: 0.2em 0;
-    }
+  .pdf-page-canvas {
+    display: block;
+    width: 100%;
+    max-width: 780px;
+    height: auto;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    background: #fff;
+  }
 
-    .about {
-      margin-top: 2em;
-      font-size: 1.2em;
-      color: #e0caff;
-    }
+  .pdf-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    text-align: center;
+    width: 100%;
+  }
 
-    .logo {
-      font-size: 2em;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 1em;
-    }
-  </style>
+  .pdf-loading .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid rgba(192,132,252,0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .pdf-loading p {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .pdf-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 3rem 2rem;
+    color: var(--muted);
+    text-align: center;
+    width: 100%;
+  }
+
+  .pdf-error svg { opacity: 0.3; }
+
+  .pdf-error p { font-size: 0.8rem; letter-spacing: 1px; }
+  .pdf-error .fname { font-family: monospace; color: var(--accent); font-size: 0.75rem; }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
 </head>
 <body>
-  <div class="logo">Omduara</div>
-  <h1>Coming Soon</h1>
-  <p class="about">by Astrid Garcia</p>
+
+<nav>
+  <span class="nav-logo" onclick="showPage('home')">Omduara</span>
+  <ul class="nav-links">
+    <li><a id="nav-precios"  onclick="showPage('precios')">Precios</a></li>
+    <li><a id="nav-horarios" onclick="showPage('horarios')">Horarios</a></li>
+    <li><a id="nav-events"   onclick="showPage('events')">Eventos</a></li>
+  </ul>
+  <button class="btn-login" onclick="openModal()">Acceder</button>
+</nav>
+
+<!-- FLOATING SOCIAL BUTTONS -->
+<div class="floating-socials">
+  <a class="float-btn float-wa" href="https://wa.me/521XXXXXXXXXX" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+  <a class="float-btn float-ig" href="https://instagram.com/omduara_placeholder" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <span>Instagram</span>
+  </a>
+</div>
+
+<div id="app">
+
+  <!-- HOME -->
+  <div id="home" class="page active">
+    <div class="home-logo">Omduara</div>
+    <p class="home-tagline">Bienvenidos</p>
+    <p class="home-author">by Astrid Garcia</p>
+  </div>
+
+  <!-- PRECIOS -->
+  <div id="precios" class="page">
+    <div class="content-page">
+      <div class="page-header">
+        <p class="page-subtitle">Información</p>
+        <h1 class="page-title">Precios</h1>
+        <div class="page-divider"></div>
+      </div>
+      <div class="pdf-wrapper">
+        <div id="precios-viewer" class="pdf-viewer">
+          <div class="pdf-loading">
+            <div class="spinner"></div>
+            <p>Cargando</p>
+          </div>
+        </div>
+        <div class="pdf-actions">
+          <a class="pdf-btn pdf-btn-primary" href="precios.pdf" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            Abrir en nueva pestaña
+          </a>
+          <a class="pdf-btn pdf-btn-ghost" href="precios.pdf" download>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Descargar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HORARIOS -->
+  <div id="horarios" class="page">
+    <div class="content-page">
+      <div class="page-header">
+        <p class="page-subtitle">Calendario</p>
+        <h1 class="page-title">Horarios</h1>
+        <div class="page-divider"></div>
+      </div>
+      <div class="pdf-wrapper">
+        <div id="horarios-viewer" class="pdf-viewer">
+          <div class="pdf-loading">
+            <div class="spinner"></div>
+            <p>Cargando</p>
+          </div>
+        </div>
+        <div class="pdf-actions">
+          <a class="pdf-btn pdf-btn-primary" href="horarios.pdf" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            Abrir en nueva pestaña
+          </a>
+          <a class="pdf-btn pdf-btn-ghost" href="horarios.pdf" download>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Descargar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div id="events" class="page">
+    <div class="content-page">
+      <div class="page-header">
+        <p class="page-subtitle">Agenda</p>
+        <h1 class="page-title">Eventos</h1>
+        <div class="page-divider"></div>
+      </div>
+      <div class="events-grid">
+        <p class="no-events">Próximamente anunciaremos nuevos eventos. ¡Mantente al pendiente!</p>
+        <!-- TO ADD AN EVENT: uncomment and fill in the block below, duplicate as needed
+        <div class="event-card">
+          <div class="event-date">
+            <div class="day">15</div>
+            <div class="month">Mar</div>
+          </div>
+          <div class="event-info">
+            <h3>Nombre del Evento</h3>
+            <p>7:00 PM — Ubicación</p>
+            <span class="event-tag">Categoría</span>
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <span class="cs-badge">Coming Soon</span>
+    <h2>Iniciar Sesión</h2>
+    <p>La plataforma de membresías estará disponible muy pronto.</p>
+    <button class="modal-close" onclick="closeModal()">Cerrar</button>
+  </div>
+</div>
+
+<!-- PDF.js from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// ── PDF.js setup
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const pdfCache = {}; // avoid re-loading same PDF
+
+async function renderPDF(url, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  // Already rendered — skip
+  if (pdfCache[containerId]) return;
+
+  // Show loading state
+  container.innerHTML = `<div class="pdf-loading"><div class="spinner"></div><p>Cargando</p></div>`;
+
+  try {
+    const pdf = await pdfjsLib.getDocument(url).promise;
+    pdfCache[containerId] = true;
+    container.innerHTML = ''; // clear loader
+
+    const scale = window.devicePixelRatio >= 2 ? 2.5 : 2; // crisp on retina
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale });
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pdf-page-canvas';
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      // Let CSS scale it to fit the column width
+      canvas.style.width = '100%';
+      canvas.style.maxWidth = '780px';
+      canvas.style.height = 'auto';
+
+      container.appendChild(canvas);
+
+      await page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      }).promise;
+    }
+  } catch (err) {
+    pdfCache[containerId] = false; // allow retry
+    container.innerHTML = `
+      <div class="pdf-error">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <p>No se encontró el archivo</p>
+        <p class="fname">${url}</p>
+        <p style="font-size:0.72rem;margin-top:0.5rem;opacity:0.6">Coloca el PDF en la misma carpeta que index.html</p>
+      </div>`;
+  }
+}
+
+// ── Page navigation
+const navMap = { precios:'nav-precios', horarios:'nav-horarios', events:'nav-events' };
+const validPages = ['home', 'precios', 'horarios', 'events'];
+
+// Map page id → pdf file and viewer container
+const pdfPages = {
+  precios:  { url: 'precios.pdf',  viewer: 'precios-viewer'  },
+  horarios: { url: 'horarios.pdf', viewer: 'horarios-viewer' },
+};
+
+let currentPage = 'home';
+let transitioning = false;
+
+function showPage(id, updateHash = true) {
+  if (!validPages.includes(id)) id = 'home';
+  if (id === currentPage || transitioning) return;
+  transitioning = true;
+
+  Object.values(navMap).forEach(n => document.getElementById(n).classList.remove('active'));
+  if (navMap[id]) document.getElementById(navMap[id]).classList.add('active');
+
+  const prev = document.getElementById(currentPage);
+  const next = document.getElementById(id);
+
+  prev.classList.remove('active');
+  prev.classList.add('exit');
+
+  setTimeout(() => {
+    prev.classList.remove('exit');
+    next.classList.add('active');
+    next.scrollTop = 0;
+    currentPage = id;
+
+    // Lazy-load PDF when page becomes visible
+    if (pdfPages[id]) {
+      const { url, viewer } = pdfPages[id];
+      renderPDF(url, viewer);
+    }
+
+    if (updateHash) {
+      history.pushState(null, '', id === 'home' ? '#' : '#' + id);
+    }
+    setTimeout(() => { transitioning = false; }, 500);
+  }, 90);
+}
+
+// Deep link: read hash on load
+window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#', '').trim();
+  const target = (hash && validPages.includes(hash)) ? hash : 'home';
+
+  if (target !== 'home') {
+    document.getElementById('home').classList.remove('active');
+    document.getElementById(target).classList.add('active');
+    currentPage = target;
+    if (navMap[target]) document.getElementById(navMap[target]).classList.add('active');
+    if (pdfPages[target]) renderPDF(pdfPages[target].url, pdfPages[target].viewer);
+  }
+});
+
+// Browser back/forward
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash.replace('#', '').trim();
+  const target = (hash && validPages.includes(hash)) ? hash : 'home';
+  showPage(target, false);
+});
+
+// Modal
+function openModal()  { document.getElementById('loginModal').classList.add('open'); }
+function closeModal() { document.getElementById('loginModal').classList.remove('open'); }
+function closeModalOutside(e) { if (e.target.id === 'loginModal') closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
 </body>
 </html>
