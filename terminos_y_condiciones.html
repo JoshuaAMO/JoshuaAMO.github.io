@@ -10,17 +10,22 @@
 
 <style>
 html, body {
-  overflow: auto;
+  height: 100%;
+  overflow: hidden;
 }
+
 #app {
+  height: 100vh;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
+
 .page {
-  position: relative !important;
+  position: absolute !important;
+  inset: 0;
+  overflow-y: auto;
   opacity: 1 !important;
   pointer-events: auto !important;
-  transform: none !important;
 }
 /* Center standalone layout properly */
 .content-page {
