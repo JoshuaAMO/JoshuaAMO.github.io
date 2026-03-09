@@ -78,7 +78,7 @@
 
 <nav>
 <span class="nav-logo" onclick="showPage('home')">
-  <img src="logo.jpg" alt="Omduara" class="nav-logo-img">
+  <img src="logo.png" alt="Omduara" class="nav-logo-img">
 </span>
   <ul class="nav-links">
     <li><a id="nav-precios"  onclick="showPage('precios')">Precios</a></li>
@@ -169,32 +169,42 @@
 
   <!-- EVENTS -->
   <div id="events" class="page">
+
+    <!-- HERO IMAGE -->
+    <div class="event-hero" style="padding-top: 72px;">
+      <img src="EventFlyerHero.png" alt="Evento" class="event-hero-img">
+      <div class="event-hero-overlay">
+        <p class="event-hero-label">Próximo Evento</p>
+        <h2 class="event-hero-title">Equinoccio 2026</h2>
+      </div>
+    </div>
+
     <div class="content-page">
       <div class="page-header">
         <p class="page-subtitle">Agenda</p>
-        <h1 class="page-title">Eventos</h1>
-        <div class="page-divider"></div>
+        <h1 class="page-title">Próximos Eventos</h1>
       </div>
       <div class="events-grid">
-        <p class="no-events">Próximamente anunciaremos nuevos eventos. ¡Mantente al pendiente!</p>
-        <!-- TO ADD AN EVENT: uncomment and fill in the block below, duplicate as needed
-        <div class="event-card">
-          <div class="event-date">
-            <div class="day">15</div>
-            <div class="month">Mar</div>
-          </div>
-          <div class="event-info">
-            <h3>Nombre del Evento</h3>
-            <p>7:00 PM — Ubicación</p>
-            <span class="event-tag">Categoría</span>
-          </div>
-        </div>
-        -->
-      </div>
-    </div>
-  </div>
-
-</div>
+<div class="event-card" onclick="openFlyer('EventFlyer.png')" data-flyer="EventFlyer.png">
+            <div class="event-date">
+              <div class="day">21</div>
+              <div class="month">Mar</div>
+            </div>
+            <div class="event-info">
+              <h3>Equinoccio 2026</h3>
+              <p>8:00 AM — Parque Jardines de la Hacienda</p>
+              <span class="event-tag">Al aire libre</span>
+              <span class="event-tag">Brunch</span>
+              <span class="event-price">$350 MXN</span>
+            </div>
+            <a class="event-directions" href="https://maps.app.goo.gl/n3SNJorM7darDQHF9" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Cómo llegar
+            </a>
+            <div class="event-flyer-thumb">
+              <img src="EventFlyer.png" alt="Flyer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+            </div>
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -243,6 +253,22 @@
     <h2>Iniciar Sesión</h2>
     <p>La plataforma de membresías estará disponible muy pronto.</p>
     <button class="modal-close" onclick="closeModal()">Cerrar</button>
+  </div>
+</div>
+
+<!-- FLYER MODAL -->
+<div class="modal-overlay" id="flyerModal" onclick="closeFlyerOutside(event)">
+  <div class="flyer-modal">
+    <button class="terminos-close-x flyer-close" onclick="closeFlyer()" aria-label="Cerrar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <img id="flyer-modal-img" src="" alt="Flyer" class="flyer-modal-img">
+    <div class="flyer-modal-actions">
+      <a id="flyer-download-btn" class="pdf-btn pdf-btn-primary" href="" download>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Descargar flyer
+      </a>
+    </div>
   </div>
 </div>
 
@@ -379,6 +405,15 @@ function openModal()  { document.getElementById('loginModal').classList.add('ope
 function closeModal() { document.getElementById('loginModal').classList.remove('open'); }
 function closeModalOutside(e) { if (e.target.id === 'loginModal') closeModal(); }
 
+// Flyer modal
+function openFlyer(src) {
+  document.getElementById('flyer-modal-img').src = src;
+  document.getElementById('flyer-download-btn').href = src;
+  document.getElementById('flyerModal').classList.add('open');
+}
+function closeFlyer() { document.getElementById('flyerModal').classList.remove('open'); }
+function closeFlyerOutside(e) { if (e.target.id === 'flyerModal') closeFlyer(); }
+
 // Términos modal
 let terminosLoaded = false;
 function openTerminos() {
@@ -392,7 +427,7 @@ function closeTerminos() { document.getElementById('terminosModal').classList.re
 function closeTerminosOutside(e) { if (e.target.id === 'terminosModal') closeTerminos(); }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeTerminos(); }
+  if (e.key === 'Escape') { closeModal(); closeTerminos(); closeFlyer(); }
 });
 </script>
 </body>
