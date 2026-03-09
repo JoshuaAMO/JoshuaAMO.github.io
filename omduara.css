@@ -143,8 +143,9 @@ nav {
 }
 .nav-logo:hover { color: var(--accent); }
 
+
 .nav-logo-img {
-  height: 38px;
+  height: 80px;
   width: auto;
   display: block;
   transition: opacity 0.2s;
@@ -548,42 +549,116 @@ nav {
   animation: fadeUp 0.55s 0.15s ease both;
 }
 
+/* ── Event card: two-row layout, mobile-first ── */
 .event-card {
   border: 1px solid rgba(192,132,252,0.18);
-  padding: 1.4rem 2rem;
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  gap: 1.5rem;
-  align-items: center;
-  transition: border-color 0.22s, background 0.22s, transform 0.22s;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.22s, background 0.22s;
 }
 .event-card:hover {
   border-color: rgba(192,132,252,0.45);
   background: rgba(192,132,252,0.05);
-  transform: translateX(5px);
 }
 
-.event-date          { text-align: center; }
+/* Top row: date | info | flyer thumb */
+.event-card-top {
+  display: grid;
+  grid-template-columns: 56px 1fr 60px;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Bottom row: directions button spans full width */
+.event-card-bottom {
+  display: flex;
+  padding-left: calc(56px + 1rem); /* align under info column */
+}
+
+.event-date { text-align: center; flex-shrink: 0; }
 .event-date .day {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.6rem; font-weight: 300; line-height: 1;
+  font-size: 2.4rem; font-weight: 300; line-height: 1;
   color: var(--accent);
 }
 .event-date .month {
-  font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
 }
+
 .event-info h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-weight: 400; margin-bottom: 0.25rem;
+  font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem;
 }
-.event-info p { font-size: 0.78rem; color: var(--muted); letter-spacing: 1px; }
+.event-info p { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.8px; margin-bottom: 0.4rem; }
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
 
 .event-tag {
   display: inline-block;
-  font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
+  font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase;
   border: 1px solid rgba(192,132,252,0.3);
   color: var(--accent);
-  padding: 0.18rem 0.6rem; margin-top: 0.5rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.event-price {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Flyer thumbnail */
+.event-flyer-thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(192,132,252,0.2);
+  justify-self: end;
+}
+.event-flyer-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: opacity 0.2s;
+}
+.event-flyer-thumb svg {
+  position: absolute; inset: 0; margin: auto;
+  color: #fff; opacity: 0; transition: opacity 0.2s;
+}
+.event-card:hover .event-flyer-thumb img { opacity: 0.5; }
+.event-card:hover .event-flyer-thumb svg { opacity: 1; }
+
+/* Directions button */
+.event-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.63rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  border: 1px solid rgba(192,132,252,0.3);
+  padding: 0.3rem 0.8rem;
+  transition: all 0.2s;
+}
+.event-directions:hover {
+  background: rgba(192,132,252,0.1);
+  border-color: var(--accent);
 }
 
 .no-events {
@@ -595,151 +670,7 @@ nav {
   text-align: center;
 }
 
-/* ═══════════════════════════════
-   EVENTS HERO IMAGE
-═══════════════════════════════ */
-
-.event-hero {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  background: var(--deep);
-}
-
-.event-hero-img {
-  width: 100%;
-  max-width: 720px;
-  max-height: 85vh;
-  height: auto;
-  display: block;
-}
-
-/* Gradient fade from photo into page background */
-.event-hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, transparent, var(--deep));
-}
-
-/* Text overlay sits above the gradient */
-.event-hero-overlay {
-  position: absolute;
-  bottom: 2rem;
-  left: 3rem;
-  right: 3rem;
-  z-index: 2;
-  animation: fadeUp 0.8s 0.1s ease both;
-}
-
-.event-hero-label {
-  font-size: 0.68rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.6rem;
-}
-
-.event-hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 300;
-  letter-spacing: 4px;
-  color: var(--text);
-  line-height: 1.1;
-}
-
-@media (max-width: 620px) {
-  .event-hero-overlay { left: 1.4rem; right: 1.4rem; bottom: 1.5rem; }
-  .event-hero::after  { height: 80px; }
-}
-/* Text overlay sits above the gradient */
-.event-hero-overlay {
-  position: absolute;
-  bottom: 3.5rem;
-  left: 3rem;
-  right: 3rem;
-  z-index: 2;
-  animation: fadeUp 0.8s 0.1s ease both;
-}
-
-.event-hero-label {
-  font-size: 0.68rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.6rem;
-}
-
-.event-hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 300;
-  letter-spacing: 4px;
-  color: var(--text);
-  line-height: 1.1;
-}
-
-/* Placeholder shown when image file is missing */
-.event-hero:not(:has(img[src])) {
-  background: linear-gradient(135deg, rgba(75,0,130,0.6), var(--deep));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 620px) {
-  .event-hero        { height: 70vh; }
-  .event-hero-overlay { left: 1.4rem; right: 1.4rem; bottom: 2.5rem; }
-}
-
-/* ═══════════════════════════════
-   EVENT CARD — FLYER THUMBNAIL
-═══════════════════════════════ */
-
-.event-card {
-  cursor: pointer;
-  grid-template-columns: 70px 1fr auto; /* add auto column for thumb */
-}
-
-.event-flyer-thumb {
-  position: relative;
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-  border-radius: 2px;
-  overflow: hidden;
-  border: 1px solid rgba(192,132,252,0.2);
-}
-
-.event-flyer-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.2s;
-}
-
-.event-flyer-thumb svg {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.event-card:hover .event-flyer-thumb img { opacity: 0.5; }
-.event-card:hover .event-flyer-thumb svg { opacity: 1; }
-
-
-/* ═══════════════════════════════
-   FLYER MODAL
-═══════════════════════════════ */
-
+/* ── Flyer modal ── */
 .flyer-modal {
   position: relative;
   display: flex;
@@ -750,76 +681,35 @@ nav {
   width: 100%;
   animation: fadeUp 0.3s ease both;
 }
-
 .flyer-close {
   position: absolute;
-  top: -2.2rem;
-  right: 0;
+  top: -2.2rem; right: 0;
   color: var(--muted);
 }
-
 .flyer-modal-img {
   width: 100%;
   height: auto;
   max-height: 80vh;
-  object-fit: contain;  /* shows full image, never crops */
+  object-fit: contain;
   display: block;
   border-radius: 2px;
   box-shadow: 0 8px 48px rgba(0,0,0,0.6);
 }
-
 .flyer-modal-actions {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
+/* Mobile tweaks */
 @media (max-width: 620px) {
-  .event-card { grid-template-columns: 55px 1fr auto; }
-  .event-flyer-thumb { width: 46px; height: 46px; }
-  .flyer-modal-img { max-height: 70vh; }
+  .event-card-top       { grid-template-columns: 48px 1fr 52px; gap: 0.75rem; }
+  .event-card-bottom    { padding-left: calc(48px + 0.75rem); }
+  .event-flyer-thumb    { width: 52px; height: 52px; }
+  .event-date .day      { font-size: 2rem; }
+  .flyer-modal-img      { max-height: 70vh; }
 }
 
-/* ═══════════════════════════════
-   EVENT CARD — PRICE & DIRECTIONS
-═══════════════════════════════ */
-
-.event-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-}
-
-.event-price {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  color: var(--text);
-  font-family: 'Montserrat', sans-serif;
-}
-
-.event-directions {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent);
-  text-decoration: none;
-  font-family: 'Montserrat', sans-serif;
-  border: 1px solid rgba(192,132,252,0.3);
-  padding: 0.25rem 0.7rem;
-  transition: all 0.2s;
-  width: fit-content;
-}
-
-.event-directions:hover {
-  background: rgba(192,132,252,0.1);
-  border-color: var(--accent);
-}
 
 /* ═══════════════════════════════
    MODAL
@@ -893,7 +783,6 @@ nav {
   nav                { padding: 1rem 1.4rem; }
   .nav-links         { gap: 1.2rem; }
   .content-page      { padding: 95px 1.4rem 3rem; }
-  .event-card        { grid-template-columns: 55px 1fr; gap: 1rem; padding: 1.1rem; }
   .pdf-actions       { flex-direction: column; }
 }
 
@@ -1050,4 +939,65 @@ nav {
   padding: 1rem 2rem;
   border-top: 1px solid rgba(192,132,252,0.12);
   flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   EVENTS HERO IMAGE
+═══════════════════════════════ */
+
+.event-hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--deep);
+}
+
+.event-hero-img {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  display: block;
+}
+
+/* Gradient fade from photo into page background */
+.event-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--deep));
+}
+
+/* Text overlay sits above the gradient */
+.event-hero-overlay {
+  position: absolute;
+  bottom: 2rem;
+  left: 3rem;
+  right: 3rem;
+  z-index: 2;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.event-hero-label {
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.event-hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+@media (max-width: 620px) {
+  .event-hero-overlay { left: 1.4rem; right: 1.4rem; bottom: 1.5rem; }
+  .event-hero::after  { height: 80px; }
 }

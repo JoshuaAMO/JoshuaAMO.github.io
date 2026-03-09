@@ -185,7 +185,11 @@
         <h1 class="page-title">Próximos Eventos</h1>
       </div>
       <div class="events-grid">
-<div class="event-card" onclick="openFlyer('EventFlyer.png')" data-flyer="EventFlyer.png">
+
+        <div class="event-card" onclick="openFlyer('EventFlyer.png')" data-flyer="EventFlyer.png">
+
+          <!-- Top row: date + info + flyer thumb -->
+          <div class="event-card-top">
             <div class="event-date">
               <div class="day">21</div>
               <div class="month">Mar</div>
@@ -193,26 +197,42 @@
             <div class="event-info">
               <h3>Equinoccio 2026</h3>
               <p>8:00 AM — Parque Jardines de la Hacienda</p>
-              <span class="event-tag">Al aire libre</span>
-              <span class="event-tag">Brunch</span>
-              <span class="event-price">$350 MXN</span>
+              <div class="event-meta">
+                <span class="event-tag">Al aire libre</span>
+                <span class="event-tag">Brunch</span>
+                <span class="event-price">$350 MXN</span>
+              </div>
             </div>
-            <a class="event-directions" href="https://maps.app.goo.gl/n3SNJorM7darDQHF9" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              Cómo llegar
-            </a>
             <div class="event-flyer-thumb">
               <img src="EventFlyer.png" alt="Flyer">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
             </div>
+          </div>
+
+          <!-- Bottom row: directions button -->
+          <div class="event-card-bottom">
+            <a class="event-directions" href="https://maps.app.goo.gl/n3SNJorM7darDQHF9" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Cómo llegar
+            </a>
+          </div>
+
+        </div>
+        <!-- TO ADD AN EVENT: copy the event-card block above and update content -->
+
+      </div><!-- /events-grid -->
+    </div><!-- /content-page -->
+  </div><!-- /events page -->
+
+</div><!-- /app -->
 
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-links">
-      <a href="mailto:omduara@gmail.com" class="footer-link">
+      <a href="/cdn-cgi/l/email-protection#254a484150445744654248444c490b464a48" class="footer-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-        omduara@gmail.com
+        <span class="__cf_email__" data-cfemail="b1dedcd5c4d0c3d0f1d6dcd0d8dd9fd2dedc">[email&#160;protected]</span>
       </a>
       <span class="footer-sep">·</span>
       <button class="footer-link footer-link-btn" onclick="openTerminos()">
@@ -273,7 +293,7 @@
 </div>
 
 <!-- PDF.js from CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 // ── PDF.js setup
 pdfjsLib.GlobalWorkerOptions.workerSrc =
