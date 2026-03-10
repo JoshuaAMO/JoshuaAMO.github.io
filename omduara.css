@@ -44,11 +44,12 @@ body {
 ═══════════════════════════════ */
 
 :root {
-  --purple:  #4b0082;   /* mid purple */
-  --deep:    #2d0050;   /* background dark purple */
-  --accent:  #c084fc;   /* lavender accent */
-  --text:    #f0e6ff;   /* near-white text */
-  --muted:   #c4a8e0;   /* subdued text / labels */
+  --purple:  #4b0082;
+  --deep:    #2d0050;
+  --accent:  #c084fc;
+  --text:    #f0e6ff;
+  --muted:   #c4a8e0;
+  --nav-h:   116px;   /* nav padding + 90px logo cap */
 }
 
 
@@ -145,7 +146,7 @@ nav {
 
 
 .nav-logo-img {
-  height: 80px;
+  height: clamp(44px, 8vw, 90px);
   width: auto;
   display: block;
   transition: opacity 0.2s;
@@ -391,7 +392,7 @@ nav {
 
 .content-page {
   min-height: 100vh;
-  padding: 110px 3rem 4rem;
+  padding: calc(var(--nav-h) + 2rem) 3rem 4rem;
   max-width: 960px;
   margin: 0 auto;
 }
@@ -780,10 +781,11 @@ nav {
 ═══════════════════════════════ */
 
 @media (max-width: 620px) {
-  nav                { padding: 1rem 1.4rem; }
-  .nav-links         { gap: 1.2rem; }
-  .content-page      { padding: 95px 1.4rem 3rem; }
-  .pdf-actions       { flex-direction: column; }
+  :root          { --nav-h: 76px; }  /* smaller logo on mobile = shorter nav */
+  nav            { padding: 0.8rem 1.4rem; }
+  .nav-links     { gap: 1.2rem; }
+  .content-page  { padding: calc(var(--nav-h) + 1.5rem) 1.4rem 3rem; }
+  .pdf-actions   { flex-direction: column; }
 }
 
 
@@ -949,9 +951,11 @@ nav {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   flex-shrink: 0;
   background: var(--deep);
+  padding-top: var(--nav-h); /* clear the fixed nav — overrides inline style */
 }
 
 .event-hero-img {
@@ -961,19 +965,19 @@ nav {
   display: block;
 }
 
-/* Gradient fade from photo into page background */
+/* Slim gradient at the bottom to back the label */
 .event-hero::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, transparent, var(--deep));
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(45,0,80,0.7));
+  pointer-events: none;
 }
 
-/* Text overlay sits above the gradient */
 .event-hero-overlay {
   position: absolute;
-  bottom: 2rem;
+  bottom: 0.8rem;
   left: 3rem;
   right: 3rem;
   z-index: 2;
@@ -985,12 +989,13 @@ nav {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.6rem;
+  opacity: 0.82;
+  margin-bottom: 0;
 }
 
 .event-hero-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
   font-weight: 300;
   letter-spacing: 4px;
   color: var(--text);
@@ -998,6 +1003,5 @@ nav {
 }
 
 @media (max-width: 620px) {
-  .event-hero-overlay { left: 1.4rem; right: 1.4rem; bottom: 1.5rem; }
-  .event-hero::after  { height: 80px; }
+  .event-hero-overlay { padding: 1rem 1.4rem 0; }
 }
