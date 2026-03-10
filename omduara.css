@@ -965,25 +965,25 @@ nav {
   display: block;
 }
 
-/* Slim gradient at the bottom to back the label */
-.event-hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent, rgba(45,0,80,0.7));
-  pointer-events: none;
-}
+/* No gradient overlay needed — title is now below the image */
+.event-hero::after { display: none; }
 
+/* Title sits below the image, left-aligned within the same max-width */
 .event-hero-overlay {
-  position: absolute;
-  bottom: 0.8rem;
-  left: 3rem;
-  right: 3rem;
-  z-index: 2;
+  position: static;          /* no longer absolute */
+  width: 100%;
+  max-width: 960px;
+  padding: 1.2rem 3rem 0;
   animation: fadeUp 0.8s 0.1s ease both;
 }
 
+.event-hero-label {
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
 .event-hero-label {
   font-size: 0.68rem;
   letter-spacing: 4px;
